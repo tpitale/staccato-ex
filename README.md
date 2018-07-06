@@ -107,12 +107,6 @@ track!
 tracker = Staccato.tracker('UA-XXXX-Y', nil, ssl: true)
 ```
 
-```elixir
-tracker.timing(category: 'runtime', variable: 'db', label: 'query') do
-  some_code_here
-end
-```
-
 ### "Global" Options ###
 
 Any of the options on the parameters list (https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters) that are accepted on ALL hit types can be set as options on any of the hits.
