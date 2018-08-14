@@ -4,6 +4,6 @@ defmodule Staccato.Tracker do
   defstruct id: nil, client_id: nil, adapter: Staccato.Adapter.default, ssl: false
 
   def ga_collection_uri(ssl) do
-    (if ssl, do: "https://", else: "http://") ++ "www.google-analytics.com/collect"
+    (if ssl, do: "https://", else: "http://") <> "www.google-analytics.com/collect"
   end
 end
