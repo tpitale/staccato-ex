@@ -10,18 +10,14 @@ defmodule Staccato do
 
       iex> Staccato.tracker("X-YYYYY-1").id
       "X-YYYYY-1"
-
-      iex> Staccato.tracker(nil)
-      %Staccato.NoopTracker{}
-
   """
-  def tracker(nil), do: %Staccato.NoopTracker{}
-  def tracker(nil, nil), do: tracker(nil)
-  def tracker(id), do: %Staccato.Tracker{id: id, client_id: generate_client_id()}
-  def tracker(id, client_id), do: %Staccato.Tracker{id: id, client_id: (client_id || generate_client_id())}
-  def tracker(id, client_id, options) when is_map(options) do
-    options |> Kernel.struct(tracker(id, client_id))
-  end
+  def tracker(id, client_id \\ UUID.uuid4, options \\ [])
 
-  def generate_client_id, do: Staccato.UUID.generate
+  def tracker(nil, _, _), do: raise "Property ID is required"
+
+  def tracker(id, client_id, []), do: %Staccato.Tracker{id: id, client_id: (client_id)}
+
+  def tracker(id, client_id, options) do
+    tracker(id, client_id) |> struct(options)
+  end
 end

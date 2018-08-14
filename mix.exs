@@ -37,7 +37,8 @@ defmodule Staccato.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.2"}
+      {:httpoison, "~> 1.2"},
+      { :elixir_uuid, "~> 1.2"}
     ]
   end
 end
