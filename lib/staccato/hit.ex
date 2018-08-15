@@ -16,7 +16,7 @@ defmodule Staccato.Hit do
       end
 
       def extract_global_options(hit, options) do
-        Staccato.Hit.Global.field_keys
+        Staccato.Hit.Global.field_keys()
         |> extract_options(options)
         |> merge_into(%Staccato.Hit.Global{})
         |> set_global(hit)
@@ -24,8 +24,8 @@ defmodule Staccato.Hit do
 
       defp extract_options(keys, options) do
         keys
-        |> Enum.map(fn(field) -> {field, options[field]} end)
-        |> Enum.reject(fn({_, v}) -> is_nil(v) end)
+        |> Enum.map(fn field -> {field, options[field]} end)
+        |> Enum.reject(fn {_, v} -> is_nil(v) end)
       end
 
       defp merge_into(extracted, hit), do: Kernel.struct(hit, extracted)
@@ -42,10 +42,10 @@ defmodule Staccato.Hit do
   def transaction(tracker, options), do: Staccato.Hit.Transaction.build(tracker, options)
   def transaction_item(tracker, options), do: Staccato.Hit.TransactionItem.build(tracker, options)
 
-  def track!(hit) do
+  def track!(hit, user_agent) do
     hit
     |> to_params
-    |> post(hit.tracker)
+    |> post(hit.tracker, user_agent)
   end
 
   @doc """
@@ -84,22 +84,21 @@ defmodule Staccato.Hit do
       "v" => 1,
       "t" => hit.__struct__.type,
       "tid" => hit.tracker.id,
-      # "cid" => hit.tracker.client_id,
-      # "sc" => session_control
+      "cid" => hit.tracker.client_id
     })
   end
 
-  defp global_params(params, hit), do: get_into(hit.global, Staccato.Hit.Global.fields, params)
+  defp global_params(params, hit), do: get_into(hit.global, Staccato.Hit.Global.fields(), params)
   defp hit_params(params, hit), do: get_into(hit, hit.__struct__.fields, params)
 
   defp get_into(from, fields, to) do
     fields
-    |> Enum.map(fn({field, ga_key}) -> {ga_key, Map.get(from, field)} end)
-    |> Enum.reject(fn({_, v}) -> is_nil(v) end)
+    |> Enum.map(fn {field, ga_key} -> {ga_key, Map.get(from, field)} end)
+    |> Enum.reject(fn {_, v} -> is_nil(v) end)
     |> Enum.into(to)
   end
 
-  defp post(params, tracker) do
-    tracker.adapter.post(Staccato.Tracker.ga_collection_uri(tracker.ssl), params)
+  defp post(params, tracker, user_agent) do
+    tracker.adapter.post(Staccato.Tracker.ga_collection_uri(tracker.ssl), params, user_agent)
   end
 end

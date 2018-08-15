@@ -3,7 +3,7 @@ defmodule Staccato.Hit.Screenview do
 
   @fields %{}
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct [:tracker, :global] ++ @field_keys
 

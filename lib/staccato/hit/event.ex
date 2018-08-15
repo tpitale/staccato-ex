@@ -8,7 +8,7 @@ defmodule Staccato.Hit.Event do
     value: "ev"
   }
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct [:tracker, :global] ++ @field_keys
 

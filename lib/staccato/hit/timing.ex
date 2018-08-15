@@ -16,7 +16,7 @@ defmodule Staccato.Hit.Timing do
     server_response_time: "srt"
   }
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct [:tracker, :global] ++ @field_keys
 

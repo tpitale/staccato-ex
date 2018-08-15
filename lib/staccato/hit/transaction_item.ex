@@ -8,11 +8,12 @@ defmodule Staccato.Hit.TransactionItem do
     quantity: "iq",
     code: "ic",
     variation: "iv",
-    category: "iv", # duplicates "variation"
+    # duplicates "variation"
+    category: "iv",
     currency: "cu"
   }
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct [:tracker, :global] ++ @field_keys
 

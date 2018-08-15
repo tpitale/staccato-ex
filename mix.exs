@@ -6,8 +6,8 @@ defmodule Staccato.Mixfile do
       app: :staccato,
       version: "0.1.0",
       elixir: "~> 1.5",
-      start_permanent: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/tpitale/staccato-ex",
       description: description(),
       package: package(),
@@ -37,8 +37,9 @@ defmodule Staccato.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:poison, "~> 3.1"},
       {:httpoison, "~> 1.2"},
-      { :elixir_uuid, "~> 1.2"}
+      {:elixir_uuid, "~> 1.2"}
     ]
   end
 end

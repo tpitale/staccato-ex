@@ -1,10 +1,13 @@
 defmodule Staccato.Hit.Global do
   @fields %{
-    anonymize_ip: "aip", # boolean
-    queue_time: "qt", # integer
+    # boolean
+    anonymize_ip: "aip",
+    # integer
+    queue_time: "qt",
     data_source: "ds",
     cache_buster: "z",
-    user_id: "uid", # a known user's id
+    # a known user's id
+    user_id: "uid",
 
     # Session, works with session control
     user_ip: "uip",
@@ -26,12 +29,16 @@ defmodule Staccato.Hit.Global do
     viewport_size: "vp",
     screen_colors: "sd",
     user_language: "ul",
-    java_enabled: "je", # boolean
+    # boolean
+    java_enabled: "je",
     flash_version: "fl",
-    non_interactive: "ni", # boolean
+    # boolean
+    non_interactive: "ni",
     document_location: "dl",
-    document_encoding: "de", # duplicate of encoding
-    screen_name: "cd", # screen name is not related to custom dimensions
+    # duplicate of encoding
+    document_encoding: "de",
+    # screen name is not related to custom dimensions
+    screen_name: "cd",
     link_id: "linkid",
 
     # App Tracking
@@ -55,7 +62,7 @@ defmodule Staccato.Hit.Global do
     geographical_id: "geoid"
   }
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct @field_keys
 

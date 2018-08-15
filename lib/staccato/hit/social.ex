@@ -7,7 +7,7 @@ defmodule Staccato.Hit.Social do
     target: "st"
   }
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct [:tracker, :global] ++ @field_keys
 
