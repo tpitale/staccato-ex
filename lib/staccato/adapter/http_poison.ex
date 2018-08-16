@@ -1,22 +1,13 @@
 defmodule Staccato.Adapter.HttpPoison do
   def post(url, params) do
+    encoded_params = URI.encode_query(params)
     case url
-         |> qualify_url(params)
-         |> HTTPoison.post("", [
+         |> HTTPoison.post(encoded_params, [
            {"User-Agent", params["ua"]},
            {"Content-Type", "x-www-form-urlencoded"}
          ]) do
       {:ok, _response} -> :ok
       {:error, reason} -> {:error, reason}
     end
-  end
-
-  defp qualify_url(url, params) do
-    params = params |> URI.encode_query()
-
-    url
-    |> URI.parse()
-    |> Map.put(:query, params)
-    |> URI.to_string()
   end
 end
