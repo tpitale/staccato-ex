@@ -13,7 +13,7 @@ defmodule Staccato do
   """
   def tracker(id, client_id \\ UUID.uuid4(), options \\ [])
 
-  def tracker(nil, _, _), do: raise("Property ID is required")
+  def tracker(nil, _, _), do: struct(%Staccato.NoopTracker{})
 
   def tracker(id, client_id, []), do: %Staccato.Tracker{id: id, client_id: client_id}
 

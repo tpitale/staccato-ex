@@ -42,10 +42,10 @@ defmodule Staccato.Hit do
   def transaction(tracker, options), do: Staccato.Hit.Transaction.build(tracker, options)
   def transaction_item(tracker, options), do: Staccato.Hit.TransactionItem.build(tracker, options)
 
-  def track!(hit, user_agent) do
+  def track!(hit) do
     hit
     |> to_params
-    |> post(hit.tracker, user_agent)
+    |> post(hit.tracker)
   end
 
   @doc """
@@ -53,7 +53,7 @@ defmodule Staccato.Hit do
 
   ## Examples
 
-      iex> tracker = Staccato.tracker("X-YYYYY-1")
+      iex> tracker = Staccato.tracker("X-YYYYY-1", "stub_client_id")
       iex> hit = Staccato.Hit.pageview(tracker, %{
       iex>   path: "/page-path",
       iex>   hostname: "mysite.com",
@@ -68,7 +68,8 @@ defmodule Staccato.Hit do
         "dh" => "mysite.com",
         "dp" => "/page-path",
         "dt" => "A Page!",
-        "uip" => "127.0.0.1"
+        "uip" => "127.0.0.1",
+        "cid" => "stub_client_id"
       }
 
   """
@@ -98,7 +99,7 @@ defmodule Staccato.Hit do
     |> Enum.into(to)
   end
 
-  defp post(params, tracker, user_agent) do
-    tracker.adapter.post(Staccato.Tracker.ga_collection_uri(tracker.ssl), params, user_agent)
+  defp post(params, tracker) do
+    tracker.adapter.post(Staccato.Tracker.ga_collection_uri(tracker.ssl), params)
   end
 end

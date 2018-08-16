@@ -1,9 +1,9 @@
 defmodule Staccato.Adapter.HttpPoison do
-  def post(url, params, user_agent) do
+  def post(url, params) do
     case url
          |> qualify_url(params)
          |> HTTPoison.post("", [
-           {"User-Agent", user_agent},
+           {"User-Agent", params["ua"]},
            {"Content-Type", "x-www-form-urlencoded"}
          ]) do
       {:ok, _response} -> :ok
