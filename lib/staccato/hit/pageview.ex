@@ -1,6 +1,4 @@
 defmodule Staccato.Hit.Pageview do
-  @behaviour Staccato.Hit
-
   @fields %{
     # also in GLOBAL_OPTIONS
     hostname: "dh",
@@ -10,12 +8,7 @@ defmodule Staccato.Hit.Pageview do
     title: "dt"
   }
 
-  @field_keys @fields |> Map.keys()
-
-  defstruct [:tracker, :global] ++ @field_keys
+  def type, do: :pageview
 
   use Staccato.Hit
-
-  def fields, do: @fields
-  def type, do: :pageview
 end

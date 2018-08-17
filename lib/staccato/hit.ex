@@ -3,6 +3,14 @@ defmodule Staccato.Hit do
 
   defmacro __using__(_opts) do
     quote do
+      @behaviour Staccato.Hit
+
+      @field_keys @fields |> Map.keys()
+
+      defstruct [:tracker, :global] ++ @field_keys
+
+      def fields, do: @fields
+
       def build(tracker, options) do
         %__MODULE__{tracker: tracker}
         |> __MODULE__.extract_fields(options)

@@ -1,6 +1,4 @@
 defmodule Staccato.Hit.Timing do
-  @behaviour Staccato.Hit
-
   @fields %{
     category: "utc",
     variable: "utv",
@@ -16,12 +14,7 @@ defmodule Staccato.Hit.Timing do
     server_response_time: "srt"
   }
 
-  @field_keys @fields |> Map.keys()
-
-  defstruct [:tracker, :global] ++ @field_keys
+  def type, do: :timing
 
   use Staccato.Hit
-
-  def fields, do: @fields
-  def type, do: :timing
 end

@@ -1,6 +1,4 @@
 defmodule Staccato.Hit.TransactionItem do
-  @behaviour Staccato.Hit
-
   @fields %{
     transaction_id: "ti",
     name: "in",
@@ -13,12 +11,7 @@ defmodule Staccato.Hit.TransactionItem do
     currency: "cu"
   }
 
-  @field_keys @fields |> Map.keys()
-
-  defstruct [:tracker, :global] ++ @field_keys
+  def type, do: :item
 
   use Staccato.Hit
-
-  def fields, do: @fields
-  def type, do: :item
 end
