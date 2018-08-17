@@ -16,7 +16,7 @@ defmodule Staccato.Hit do
       end
 
       def extract_global_options(hit, options) do
-        Staccato.Hit.Global.field_keys
+        Staccato.Hit.Global.field_keys()
         |> extract_options(options)
         |> merge_into(%Staccato.Hit.Global{})
         |> set_global(hit)
@@ -24,8 +24,8 @@ defmodule Staccato.Hit do
 
       defp extract_options(keys, options) do
         keys
-        |> Enum.map(fn(field) -> {field, options[field]} end)
-        |> Enum.reject(fn({_, v}) -> is_nil(v) end)
+        |> Enum.map(fn field -> {field, options[field]} end)
+        |> Enum.reject(fn {_, v} -> is_nil(v) end)
       end
 
       defp merge_into(extracted, hit), do: Kernel.struct(hit, extracted)
@@ -53,7 +53,7 @@ defmodule Staccato.Hit do
 
   ## Examples
 
-      iex> tracker = Staccato.tracker("X-YYYYY-1")
+      iex> tracker = Staccato.tracker("X-YYYYY-1", "stub_client_id")
       iex> hit = Staccato.Hit.pageview(tracker, %{
       iex>   path: "/page-path",
       iex>   hostname: "mysite.com",
@@ -68,7 +68,8 @@ defmodule Staccato.Hit do
         "dh" => "mysite.com",
         "dp" => "/page-path",
         "dt" => "A Page!",
-        "uip" => "127.0.0.1"
+        "uip" => "127.0.0.1",
+        "cid" => "stub_client_id"
       }
 
   """
@@ -84,18 +85,17 @@ defmodule Staccato.Hit do
       "v" => 1,
       "t" => hit.__struct__.type,
       "tid" => hit.tracker.id,
-      # "cid" => hit.tracker.client_id,
-      # "sc" => session_control
+      "cid" => hit.tracker.client_id
     })
   end
 
-  defp global_params(params, hit), do: get_into(hit.global, Staccato.Hit.Global.fields, params)
+  defp global_params(params, hit), do: get_into(hit.global, Staccato.Hit.Global.fields(), params)
   defp hit_params(params, hit), do: get_into(hit, hit.__struct__.fields, params)
 
   defp get_into(from, fields, to) do
     fields
-    |> Enum.map(fn({field, ga_key}) -> {ga_key, Map.get(from, field)} end)
-    |> Enum.reject(fn({_, v}) -> is_nil(v) end)
+    |> Enum.map(fn {field, ga_key} -> {ga_key, Map.get(from, field)} end)
+    |> Enum.reject(fn {_, v} -> is_nil(v) end)
     |> Enum.into(to)
   end
 

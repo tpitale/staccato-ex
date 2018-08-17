@@ -6,7 +6,7 @@ defmodule Staccato.Hit.Exception do
     fatal: "exf"
   }
 
-  @field_keys (@fields |> Map.keys)
+  @field_keys @fields |> Map.keys()
 
   defstruct [:tracker, :global] ++ @field_keys
 

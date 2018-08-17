@@ -1,8 +1,10 @@
 defmodule Staccato.Adapter.HttpPoison do
-  # @behaviour Staccato.Adapter
-
   def post(url, params) do
-    case HTTPoison.post url, URI.encode_www_form(params) do
+    encoded_params = URI.encode_query(params)
+    case url
+         |> HTTPoison.post(encoded_params, [
+           {"Content-Type", "x-www-form-urlencoded"}
+         ]) do
       {:ok, _response} -> :ok
       {:error, reason} -> {:error, reason}
     end
