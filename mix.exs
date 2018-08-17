@@ -39,7 +39,8 @@ defmodule Staccato.Mixfile do
     [
       {:poison, "~> 3.1"},
       {:httpoison, "~> 1.2"},
-      {:elixir_uuid, "~> 1.2"}
+      {:elixir_uuid, "~> 1.2"},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 end
