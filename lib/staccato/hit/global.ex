@@ -1,4 +1,22 @@
 defmodule Staccato.Hit.Global do
+  @moduledoc """
+
+  Examples
+
+      iex> tracker = Staccato.tracker("X-YYYY-1", "UUID12345")
+      iex> tracker
+      iex> |> Staccato.Hit.event(queue_time: 127, user_agent: "Mozilla Firefox")
+      iex> |> Staccato.Hit.to_params
+      %{
+        "cid" => "UUID12345",
+        "qt" => 127,
+        "ua" => "Mozilla Firefox",
+        "t" => :event,
+        "tid" => "X-YYYY-1",
+        "v" => 1
+      }
+  """
+
   @fields %{
     # boolean
     anonymize_ip: "aip",
