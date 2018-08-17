@@ -3,7 +3,6 @@ defmodule Staccato.Adapter.HttpPoison do
     encoded_params = URI.encode_query(params)
     case url
          |> HTTPoison.post(encoded_params, [
-           {"User-Agent", params["ua"]},
            {"Content-Type", "x-www-form-urlencoded"}
          ]) do
       {:ok, _response} -> :ok
